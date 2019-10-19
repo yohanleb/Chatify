@@ -1,21 +1,55 @@
 <template>
   <v-layout row>
     <v-flex>
+ <v-app-bar
+      app
+      clipped-right
+      color="blue-grey"
+      dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Chat de user login</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn color="red darken-2" dark right="true">
+            <v-icon dark left>mdi-exit-to-app</v-icon>Déconnexion
+          </v-btn>
+    </v-app-bar>
+
+      <v-navigation-drawer v-model="drawer" app>
+        <v-list dense>
+          <v-list-item @click.stop="left = !left">
+            <v-list-item-content>
+              <v-list-item-title>Jean</v-list-item-title>
+              <v-list-item-title>Patrick</v-list-item-title>
+              <v-list-item-title>Eleonore</v-list-item-title>
+              <v-list-item-title>Lucie</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+
+      <v-navigation-drawer v-model="left" fixed temporary></v-navigation-drawer>
+
       <div class="chat-container">
         <v-list>
           <v-list-item-group>
             <!-- La liste des messages -->
-            <v-list-item class="message" v-for="(message, i) in messages" :key="i" :class="{own: message.type == 'own'}" >
+            <v-list-item
+              class="message"
+              v-for="(message, i) in messages"
+              :key="i"
+              :class="{own: message.type == 'own'}"
+            >
               <!-- Message -->
-              <v-tooltip top>
-                <template v-slot:activator="{ on }">
-                  <v-list-item-content v-on="on">
-                    <v-list-item-title class="username" v-text="message.username"></v-list-item-title>
-                    <v-list-item class="content" v-text="message.content"></v-list-item>
-                  </v-list-item-content>
-                </template>
-                <span v-text="message.heure"></span>
-              </v-tooltip>
+              <v-list-item-content>
+                <v-list-item-title class="username" v-text="message.username"></v-list-item-title>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-list-item v-on="on" class="content" v-text="message.content"></v-list-item>
+                  </template>
+                  <span v-text="message.heure"></span>
+                </v-tooltip>
+              </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -33,11 +67,40 @@ export default {
   data () {
     return {
       messages: [
-        { username: 'Jean', content: 'message de Jean', type: 'user', heure: '10:00' },
-        { username: 'Bertrand', content: 'message de Bertrand', type: 'user', heure: '12:00' },
-        { username: 'Patrick', content: 'message de Patrick', type: 'user', heure: '12:01' },
-        { username: 'Moi', content: 'message de Moi', type: 'own', heure: '12:02' }
-      ]
+        {
+          username: 'Jean',
+          content: 'message de Jean',
+          type: 'user',
+          heure: '10:00'
+        },
+        {
+          username: 'Bertrand',
+          content: 'message de Bertrand',
+          type: 'user',
+          heure: '12:00'
+        },
+        {
+          username: 'Patrick',
+          content: 'message de Patrick',
+          type: 'user',
+          heure: '12:01'
+        },
+        {
+          username: 'Moi',
+          content: 'message de Moi',
+          type: 'own',
+          heure: '12:02'
+        }
+      ],
+      users: [
+        {
+          name: 'Jean'
+        },
+        {
+          name: 'Patrick'
+        }
+      ],
+      drawer: null
     }
   }
 }
