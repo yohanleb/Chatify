@@ -1,30 +1,31 @@
 <template>
-  <div>
-    <v-layout row>
-      <v-flex>
-        <div class="chat-container">
-          <v-list>
-            <v-list-item-group>
-              <v-list-item
-                class="message"
-                v-for="(message, i) in messages"
-                :key="i"
-                :class="{own: message.type == 'own'}"
-              >
-                <v-list-item-content>
-                  <v-list-item-title class="username" v-text="message.username"></v-list-item-title>
-                  <v-list-item class="content" v-text="message.content"></v-list-item>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </div>
-        <div class="typer">
-          <input type="text" placeholder="message..." />
-        </div>
-      </v-flex>
-    </v-layout>
-  </div>
+  <v-layout row>
+    <v-flex>
+      <div class="chat-container">
+        <v-list>
+          <v-list-item-group>
+            <!-- La liste des messages -->
+            <v-list-item class="message" v-for="(message, i) in messages" :key="i" :class="{own: message.type == 'own'}" >
+              <!-- Message -->
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-list-item-content v-on="on">
+                    <v-list-item-title class="username" v-text="message.username"></v-list-item-title>
+                    <v-list-item class="content" v-text="message.content"></v-list-item>
+                  </v-list-item-content>
+                </template>
+                <span v-text="message.heure"></span>
+              </v-tooltip>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </div>
+
+      <div class="typeBox">
+        <input type="text" placeholder="message..." />
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -32,10 +33,10 @@ export default {
   data () {
     return {
       messages: [
-        { username: 'Jean', content: 'message de Jean', type: 'user' },
-        { username: 'Bertrand', content: 'message de Bertrand', type: 'user' },
-        { username: 'Patrick', content: 'message de Patrick', type: 'user' },
-        { username: 'Moi', content: 'message de Moi', type: 'own' }
+        { username: 'Jean', content: 'message de Jean', type: 'user', heure: '10:00' },
+        { username: 'Bertrand', content: 'message de Bertrand', type: 'user', heure: '12:00' },
+        { username: 'Patrick', content: 'message de Patrick', type: 'user', heure: '12:01' },
+        { username: 'Moi', content: 'message de Moi', type: 'own', heure: '12:02' }
       ]
     }
   }
@@ -43,7 +44,7 @@ export default {
 </script>
 
 <style>
-.typer {
+.typeBox {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -51,15 +52,12 @@ export default {
   height: 4.9rem;
   width: 100%;
   background-color: #fff;
-  box-shadow: 0 -5px 10px -5px rgba(0, 0, 0, 0.2);
 }
-.typer input[type="text"] {
+.typeBox input[type="text"] {
   position: absolute;
   left: 1.5rem;
   padding: 1rem;
-  width: 90%;
   background-color: transparent;
-  border: none;
   outline: none;
   font-size: 1.25rem;
 }
@@ -69,9 +67,7 @@ export default {
   overflow-y: auto;
   background-color: #f2f2f2;
 }
-.message {
-  margin-bottom: 3px;
-}
+
 .message.own {
   text-align: right;
 }
