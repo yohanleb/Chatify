@@ -19,6 +19,14 @@ module.exports = {
       })
       .value()
   },
+  getUsers: function (params) {
+    return db
+      .get('users')
+      .chain()
+      .filter({ chatID: params.chatID })
+      .sortBy('name')
+      .value()
+  },
   getMessages: function (params) {
     return db
       .get('messages')

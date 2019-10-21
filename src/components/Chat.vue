@@ -18,12 +18,9 @@
 
       <v-navigation-drawer v-model="drawer" app>
         <v-list dense>
-          <v-list-item @click.stop="left = !left">
+          <v-list-item @click.stop="left = !left" v-for="(user, i) in users" :key="i">
             <v-list-item-content>
-              <v-list-item-title>Jean</v-list-item-title>
-              <v-list-item-title>Patrick</v-list-item-title>
-              <v-list-item-title>Eleonore</v-list-item-title>
-              <v-list-item-title>Lucie</v-list-item-title>
+              <v-list-item-title>{{ user.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -68,8 +65,11 @@ export default {
   data () {
     return {
       drawer: null,
+      left: false,
+      right: false,
       errorMessage: '',
       messages: this.getMessages(),
+      users: this.getUsers(),
       chatID: null,
       chatName: this.$cookie.get('chatName'),
       username: null,
@@ -92,6 +92,25 @@ export default {
         if (response.data.error === 0) {
           this.messages = response.data.messages
           this.session = response.data.session
+        } else {
+          this.snackbar = true
+          this.errorMessage = response.data.message
+        }
+      } catch (err) {
+        this.snackbar = true
+        this.errorMessage = this.$genericErrorMessage
+      }
+    },
+    async getUsers () {
+      try {
+        const response = await this.axios.post(
+          this.$apiURL + '/api/users/',
+          {
+            chatID: this.chatID
+          }
+        )
+        if (response.data.error === 0) {
+          this.users = response.data.users
         } else {
           this.snackbar = true
           this.errorMessage = response.data.message

@@ -129,6 +129,17 @@ app.post('/api/messages', (req, res) => {
   })
 })
 
+app.post('/api/users', (req, res) => {
+  var users = DBhelper.getUsers({
+    chatID: parseInt(req.body.chatID)
+  })
+
+  res.json({
+    error: 0,
+    users: users
+  })
+})
+
 app.post('/api/sendmessage', (req, res) => {
   DBhelper.createMessage({
     id: shortid.generate(),
