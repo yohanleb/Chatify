@@ -88,6 +88,7 @@
       "username": "remi",
       "content": "testtest !!!",
       "send_time": "2019-10-21T08:03:58.219Z"
+<<<<<<< HEAD
     },
     {
       "id": "IOzIz3HK",
@@ -95,6 +96,8 @@
       "username": "yohan",
       "content": "test",
       "send_time": "2019-10-21T08:19:38.779Z"
+=======
+>>>>>>> ed0fb8670d0ae5b8de623303e4bc94c751fcb125
     }
   ]
 }
