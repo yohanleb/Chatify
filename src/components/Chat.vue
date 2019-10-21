@@ -38,7 +38,7 @@
               class="message"
               v-for="(message, i) in messages"
               :key="i"
-              :class="{own: message.type == 'own'}"
+              :class="{own: message.username == session.user.name}"
             >
               <!-- Message -->
               <v-list-item-content>
@@ -47,7 +47,7 @@
                   <template v-slot:activator="{ on }">
                     <v-list-item v-on="on" class="content" v-text="message.content"></v-list-item>
                   </template>
-                  <span v-text="message.heure"></span>
+                  <span v-text="message.send_time"></span>
                 </v-tooltip>
               </v-list-item-content>
             </v-list-item>
@@ -56,7 +56,7 @@
       </div>
 
       <div class="typeBox">
-        <input type="text" placeholder="message..." />
+        <input type="text" placeholder="Write a message" v-model="content" v-on:keyup.enter="sendMessage()"/>
       </div>
     </v-flex>
   </v-layout>
@@ -66,32 +66,6 @@
 export default {
   data () {
     return {
-      messages: [
-        {
-          username: 'Jean',
-          content: 'message de Jean',
-          type: 'user',
-          heure: '10:00'
-        },
-        {
-          username: 'Bertrand',
-          content: 'message de Bertrand',
-          type: 'user',
-          heure: '12:00'
-        },
-        {
-          username: 'Patrick',
-          content: 'message de Patrick',
-          type: 'user',
-          heure: '12:01'
-        },
-        {
-          username: 'Moi',
-          content: 'message de Moi',
-          type: 'own',
-          heure: '12:02'
-        }
-      ],
       users: [
         {
           name: 'Jean'
@@ -100,7 +74,61 @@ export default {
           name: 'Patrick'
         }
       ],
-      drawer: null
+      drawer: null,
+      messages: this.getMessages(),
+      chatID: null,
+      username: null,
+      content: ''
+    }
+  },
+  methods: {
+    async getMessages () {
+      this.chatID = this.$cookie.get('chatID')
+      this.username = this.$cookie.get('username')
+
+      try {
+        const response = await this.axios.post(
+          this.$apiURL + '/api/messages/',
+          {
+            chatID: this.chatID,
+            username: this.username
+          }
+        )
+        if (response.data.error === 0) {
+          this.messages = response.data.messages
+          this.session = response.data.session
+        } else {
+          this.snackbar = true
+          this.errorMessage = response.data.message
+        }
+      } catch (err) {
+        this.snackbar = true
+        this.errorMessage = this.$genericErrorMessage
+      }
+    },
+    async sendMessage () {
+      try {
+        var message = {
+          chatID: this.session.user.chatID,
+          username: this.session.user.name,
+          content: this.content
+        }
+        this.content = ''
+        const response = await this.axios.post(
+          this.$apiURL + '/api/sendmessage/',
+          {
+            message: message
+          }
+        )
+        if (response.data.error === 0) {
+          this.messages.push(message)
+        } else {
+          this.snackbar = true
+          this.errorMessage = response.data.message
+        }
+      } catch (err) {
+        console.log('error :', err)
+      }
     }
   }
 }

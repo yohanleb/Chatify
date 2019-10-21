@@ -1,5 +1,4 @@
 /**
- *
  * entrez la commande suivante:
  * npm install --save express express-session body-parser morgan cors
  * puis node server.js
@@ -11,9 +10,11 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 const session = require('express-session')
-
 const app = express()
 const io = require('socket.io')(http)
+const shortid = require('shortid')
+
+var DBhelper = require('./db_helper.js')
 
 app.use(session({
   secret: 'nnfkvnkjdnvnqdvfnmdsjnvm', // changez cette valeur
@@ -28,39 +29,40 @@ app.use(cors({
   origin: 'http://localhost:8080'
 }))
 
-const users = [{
-  id: 1,
-  login: 'admin',
-  password: 'changethispassword'
-},
-{
-  id: 2,
-  login: 'yohan'
-}]
-
-const chats = [{
-  id: '123',
-  users: [2]
-}]
-
 app.post('/api/join', (req, res) => {
-  var found = false
-  console.log(req.body)
-  chats.forEach(function (chat) {
-    if (chat.id === req.body.chatID) {
-      found = true
-      res.json({
-        message: 'Chat joined',
-        error: 0
+  var chat = DBhelper.getChat({
+    chatID: parseInt(req.body.chatID)
+  })
+
+  if (chat) {
+    var user = DBhelper.getUser({
+      name: req.body.username,
+      chatID: parseInt(req.body.chatID)
+    })
+
+    if (!user) {
+      user = {
+        id: shortid.generate(),
+        chatID: parseInt(req.body.chatID),
+        name: req.body.username
+      }
+
+      DBhelper.createUser({
+        user: user
       })
     }
-  })
-  if (!found) {
+
+    res.json({
+      error: 0,
+      session: { user: user }
+    })
+  } else {
     res.json({
       message: 'Chat not found, try again !',
       error: 1
     })
   }
+
   /*
   io.on('connection', (socket) => {
     io.on('connected', (user) => {
@@ -84,19 +86,77 @@ app.post('/api/join', (req, res) => {
   */
 })
 
-app.get('/api/test', (req, res) => {
-  console.log('ce console.log est appelé au bon moment')
-  res.json([
-    {
-      title: 'truc',
-      content: 'machin'
-    }, {
-      title: 'truc2',
-      content: 'machin2'
-    }
-  ])
+app.post('/api/create', (req, res) => {
+  // Getting last id + 1
+  var chatID = DBhelper.getLastChatID()
+
+  DBhelper.createChat({
+    id: chatID,
+    chatName: req.body.chatName
+  })
+
+  var user = {
+    id: shortid.generate(),
+    chatID: chatID,
+    name: req.body.username
+  }
+
+  DBhelper.createUser({
+    user: user
+  })
+
+  res.json({
+    error: 0,
+    chatID: chatID
+  })
 })
 
+app.post('/api/messages', (req, res) => {
+  var user = DBhelper.getUser({
+    name: req.body.username,
+    chatID: parseInt(req.body.chatID)
+  })
+
+  var messages = DBhelper.getMessages({
+    chatID: parseInt(req.body.chatID)
+  })
+
+  res.json({
+    error: 0,
+    session: { user: user },
+    messages: messages
+  })
+})
+
+app.post('/api/sendmessage', (req, res) => {
+  DBhelper.createMessage({
+    id: shortid.generate(),
+    chatID: req.body.message.chatID,
+    username: req.body.message.username,
+    content: req.body.message.content,
+    send_time: new Date()
+  })
+
+  res.json({
+    error: 0
+  })
+
+  /*
+  if (!req.session.userId || req.session.isAdmin === false) {
+    res.status(401)
+    res.json({ message: 'Unauthorized' })
+    return
+  } else {
+    io.on('connection', (socket) => {
+      socket.on('message', (message) => {
+        io.emit('message', message)
+      })
+    })
+  }
+  */
+})
+
+/*
 app.post('/api/login', (req, res) => {
   console.log('req.body', req.body)
   console.log('req.query', req.query)
@@ -120,6 +180,7 @@ app.post('/api/login', (req, res) => {
     })
   }
 })
+*/
 
 app.get('/api/logout', (req, res) => {
   if (!req.session.userId) {
@@ -140,24 +201,6 @@ app.get('/api/admin', (req, res) => {
     res.status(401)
     res.json({ message: 'Unauthorized' })
     return
-  }
-
-  res.json({
-    message: 'congrats, you are connected'
-  })
-})
-
-app.post('/api/sendmessage', (req, res) => {
-  if (!req.session.userId || req.session.isAdmin === false) {
-    res.status(401)
-    res.json({ message: 'Unauthorized' })
-    return
-  } else {
-    io.on('connection', (socket) => {
-      socket.on('message', (message) => {
-        io.emit('message', message)
-      })
-    })
   }
 
   res.json({

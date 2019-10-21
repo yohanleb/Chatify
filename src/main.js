@@ -5,6 +5,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import VueCookie from 'vue-cookie'
 
 import Index from './components/Index.vue'
 import Chat from './components/Chat.vue'
@@ -16,6 +17,7 @@ const routes = [
   { path: '*', name: 'pagenotfound', component: PageNotFound }
 ]
 
+Vue.use(VueCookie)
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -26,6 +28,10 @@ Vue.config.productionTip = false
 // cette ligne est importante pour les sessions (en mode développement)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
+
+// Global variables
+Vue.prototype.$apiURL = 'http://localhost:4000'
+Vue.prototype.$genericErrorMessage = 'Error, try again !'
 
 new Vue({
   vuetify,
