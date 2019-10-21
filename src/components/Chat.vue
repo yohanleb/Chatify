@@ -1,19 +1,20 @@
 <template>
   <v-layout row>
     <v-flex>
- <v-app-bar
+  <v-app-bar
       app
       clipped-right
       color="blue-grey"
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Chat de user login</v-toolbar-title>
+      <v-toolbar-title>{{ chatName }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn color="red darken-2" dark right="true">
-            <v-icon dark left>mdi-exit-to-app</v-icon>Déconnexion
-          </v-btn>
-    </v-app-bar>
+        <v-icon dark left>mdi-exit-to-app</v-icon>
+        Logout
+      </v-btn>
+  </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" app>
         <v-list dense>
@@ -66,17 +67,11 @@
 export default {
   data () {
     return {
-      users: [
-        {
-          name: 'Jean'
-        },
-        {
-          name: 'Patrick'
-        }
-      ],
       drawer: null,
+      errorMessage: '',
       messages: this.getMessages(),
       chatID: null,
+      chatName: this.$cookie.get('chatName'),
       username: null,
       content: ''
     }
@@ -127,7 +122,8 @@ export default {
           this.errorMessage = response.data.message
         }
       } catch (err) {
-        console.log('error :', err)
+        this.snackbar = true
+        this.errorMessage = this.$genericErrorMessage
       }
     }
   }

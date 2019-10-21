@@ -151,6 +151,7 @@ export default {
         if (response.data.error === 0) {
           this.$cookie.set('username', this.username, 1)
           this.$cookie.set('chatID', this.chatID, 1)
+          this.$cookie.set('chatName', response.data.chatName, 1)
           this.$router.push({
             name: 'chat',
             params: {

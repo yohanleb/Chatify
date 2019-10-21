@@ -54,7 +54,8 @@ app.post('/api/join', (req, res) => {
 
     res.json({
       error: 0,
-      session: { user: user }
+      session: { user: user },
+      chatName: chat.chatName
     })
   } else {
     res.json({
