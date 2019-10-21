@@ -1,0 +1,100 @@
+{
+  "chats": [
+    {
+      "id": 1,
+      "chatName": "test"
+    },
+    {
+      "id": 2,
+      "chatName": "Chat de yoyo"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "chatID": 1,
+      "name": "yohan"
+    },
+    {
+      "id": 2,
+      "chatID": 1,
+      "name": "rémi"
+    },
+    {
+      "id": "GWr3k--6",
+      "chatID": 1,
+      "name": "yoyo"
+    },
+    {
+      "id": "mbzxME4-",
+      "chatID": 2,
+      "name": "yoyo"
+    },
+    {
+      "id": "2WmhNv1n",
+      "chatID": 1,
+      "name": "yohan"
+    },
+    {
+      "id": "_Fdgib-R",
+      "chatID": 2,
+      "name": "remi"
+    },
+    {
+      "id": "bjTSg60i",
+      "chatID": 2,
+      "name": "yohan"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "chatID": 1,
+      "username": "yohan",
+      "content": "salut rémi !",
+      "send_time": "October 15, 2019 16:30:00"
+    },
+    {
+      "id": 2,
+      "chatID": 1,
+      "username": "rémi",
+      "content": "salut yohan !",
+      "send_time": "October 15, 2019 16:32:00"
+    },
+    {
+      "id": "khPdU6B9",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "toto toto",
+      "send_time": "2019-10-18T21:21:00.003Z"
+    },
+    {
+      "id": "OGOAIJOK",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "test",
+      "send_time": "2019-10-18T21:23:48.672Z"
+    },
+    {
+      "id": "7FlCuOsG",
+      "chatID": 2,
+      "username": "yohan",
+      "content": "test",
+      "send_time": "2019-10-21T08:03:40.733Z"
+    },
+    {
+      "id": "G9zBxKI9",
+      "chatID": 2,
+      "username": "remi",
+      "content": "testtest !!!",
+      "send_time": "2019-10-21T08:03:58.219Z"
+    },
+    {
+      "id": "IOzIz3HK",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "test",
+      "send_time": "2019-10-21T08:19:38.779Z"
+    }
+  ]
+}
