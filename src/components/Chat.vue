@@ -10,7 +10,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ chatName }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn color="red darken-2" dark right="true">
+      <v-btn color="red darken-2" dark right="true" @click="logout()">
         <v-icon dark left>mdi-exit-to-app</v-icon>
         Logout
       </v-btn>
@@ -125,6 +125,14 @@ export default {
         this.snackbar = true
         this.errorMessage = this.$genericErrorMessage
       }
+    },
+    logout () {
+      this.$cookie.delete('username')
+      this.$cookie.delete('chatID')
+      this.$cookie.delete('chatName')
+      this.$router.push({
+        name: 'index'
+      })
     }
   }
 }
