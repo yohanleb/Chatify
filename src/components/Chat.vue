@@ -17,7 +17,7 @@
   </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" app>
-        <v-list dense>
+        <v-list dense disabled>
           <v-list-item @click.stop="left = !left" v-for="(user, i) in users" :key="i">
             <v-list-item-content>
               <v-list-item-title>{{ user.name }}</v-list-item-title>
@@ -29,14 +29,14 @@
       <v-navigation-drawer v-model="left" fixed temporary></v-navigation-drawer>
 
       <div class="chat-container">
-        <v-list>
+        <v-list disabled>
           <v-list-item-group>
             <!-- La liste des messages -->
             <v-list-item
               class="message"
               v-for="(message, i) in messages"
               :key="i"
-              :class="{own: message.username == session.user.name}"
+              :class="[(message.username == session.user.name) ? 'own' : 'user']"
             >
               <!-- Message -->
               <v-list-item-content>
@@ -176,14 +176,16 @@ export default {
   font-size: 1.25rem;
 }
 .chat-container {
-  box-sizing: border-box;
   height: calc(100vh - 9.5rem);
   overflow-y: auto;
   background-color: #f2f2f2;
 }
-
+.message.user{
+  padding-right: 50%;
+}
 .message.own {
   text-align: right;
+  padding-left: 50%;
 }
 .message.own .content {
   background-color: lightskyblue;
@@ -193,12 +195,8 @@ export default {
   font-weight: bold;
 }
 .chat-container .content {
-  padding: 8px;
   background-color: lightgreen;
   border-radius: 10px;
-  display: inline-block;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
-    0 2px 1px -1px rgba(0, 0, 0, 0.12);
   word-wrap: break-word;
 }
 </style>

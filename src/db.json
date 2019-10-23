@@ -31,6 +31,11 @@
       "name": "yoyo"
     },
     {
+      "id": "2WmhNv1n",
+      "chatID": 1,
+      "name": "yohan"
+    },
+    {
       "id": "_Fdgib-R",
       "chatID": 2,
       "name": "remi"
@@ -90,6 +95,13 @@
       "username": "yohan",
       "content": "test",
       "send_time": "2019-10-21T08:19:38.779Z"
+    },
+    {
+      "id": "oxo2V99w",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "salut",
+      "send_time": "2019-10-23T07:50:30.131Z"
     }
   ]
 }
