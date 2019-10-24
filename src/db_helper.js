@@ -34,7 +34,6 @@ module.exports = {
       .filter({ chatID: params.chatID })
       .sortBy('send_time')
       .value()
-      .reverse()
   },
   getLastChatID: function () {
     return db

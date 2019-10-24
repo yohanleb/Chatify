@@ -116,7 +116,8 @@ export default {
         var message = {
           chatID: this.session.user.chatID,
           username: this.session.user.name,
-          content: this.content
+          content: this.content,
+          send_time: new Date()
         }
         this.content = ''
         const response = await this.axios.post(

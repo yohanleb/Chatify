@@ -146,7 +146,7 @@ app.post('/api/sendmessage', (req, res) => {
     chatID: req.body.message.chatID,
     username: req.body.message.username,
     content: req.body.message.content,
-    send_time: new Date()
+    send_time: req.body.send_time
   })
 
   res.json({
