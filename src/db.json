@@ -52,14 +52,14 @@
       "chatID": 1,
       "username": "yohan",
       "content": "salut rémi !",
-      "send_time": "October 15, 2019 16:30:00"
+      "send_time": "2019-10-15T16:30:00.003Z"
     },
     {
       "id": 2,
       "chatID": 1,
       "username": "rémi",
       "content": "salut yohan !",
-      "send_time": "October 15, 2019 16:32:00"
+      "send_time": "2019-10-15T16:35:00.003Z"
     },
     {
       "id": "khPdU6B9",

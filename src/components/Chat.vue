@@ -57,30 +57,28 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
+
 export default {
   data () {
     return {
       drawer: null,
       errorMessage: '',
-      messages: this.getMessages(),
-      users: this.getUsers(),
-      chatID: null,
       chatName: this.$cookie.get('chatName'),
-      username: null,
+      users: this.getUsers(),
+      messages: this.getMessages(),
+      socket: io.connect(this.$socketURL, { query: 'chatID=' + this.$cookie.get('chatID') }),
       content: ''
     }
   },
   methods: {
     async getMessages () {
-      this.chatID = this.$cookie.get('chatID')
-      this.username = this.$cookie.get('username')
-
       try {
         const response = await this.axios.post(
           this.$apiURL + '/api/messages/',
           {
-            chatID: this.chatID,
-            username: this.username
+            chatID: this.$cookie.get('chatID'),
+            username: this.$cookie.get('username')
           }
         )
         if (response.data.error === 0) {
@@ -98,7 +96,7 @@ export default {
     async getUsers () {
       try {
         const response = await this.axios.post(this.$apiURL + '/api/users/', {
-          chatID: this.chatID
+          chatID: this.$cookie.get('chatID')
         })
         if (response.data.error === 0) {
           this.users = response.data.users
@@ -112,29 +110,14 @@ export default {
       }
     },
     async sendMessage () {
-      try {
-        var message = {
-          chatID: this.session.user.chatID,
-          username: this.session.user.name,
-          content: this.content
-        }
-        this.content = ''
-        const response = await this.axios.post(
-          this.$apiURL + '/api/sendmessage/',
-          {
-            message: message
-          }
-        )
-        if (response.data.error === 0) {
-          this.messages.push(message)
-        } else {
-          this.snackbar = true
-          this.errorMessage = response.data.message
-        }
-      } catch (err) {
-        this.snackbar = true
-        this.errorMessage = this.$genericErrorMessage
-      }
+      this.socket.emit('chat-message', {
+        chatID: this.$cookie.get('chatID'),
+        username: this.$cookie.get('username'),
+        content: this.content,
+        send_time: new Date()
+      })
+
+      this.content = ''
     },
     logout () {
       this.$cookie.delete('username')
@@ -144,13 +127,17 @@ export default {
         name: 'index'
       })
     }
+  },
+  mounted () {
+    this.socket.on('message', (data) => {
+      this.messages.push(data)
+    })
   }
 }
 </script>
 
 <style>
   .typebox{
-    
     position: relative;
     border-top: 0.25rem solid #607d8b;
     justify-content: center;

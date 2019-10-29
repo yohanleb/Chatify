@@ -4,15 +4,18 @@
  * puis node server.js
  * exemple complet à l'adresse https://github.com/Musinux/first-vue-app
  */
-const http = require('http')
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 const session = require('express-session')
 const app = express()
-const io = require('socket.io')(http)
 const shortid = require('shortid')
+
+// Socket server
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
+http.listen(4444, '127.0.0.1')
 
 var DBhelper = require('./db_helper.js')
 
@@ -26,8 +29,38 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:8080'
+  origin: 'http://127.0.0.1:8080'
 }))
+
+io.on('connection', (socket) => {
+  // socket.join(socket.handshake.query['chatID'])
+  socket.join(socket.handshake.query.chatID)
+  console.log('A user is connected')
+})
+
+io.on('connection', (socket) => {
+  socket.on('disconnect', () => {
+    console.log('A user disconnected')
+  })
+})
+
+io.on('connection', (socket) => {
+  socket.on('chat-message', (data) => {
+    DBhelper.createMessage({
+      id: shortid.generate(),
+      chatID: parseInt(data.chatID),
+      username: data.username,
+      content: data.content,
+      send_time: data.send_time
+    })
+
+    io.to(data.chatID).emit('message', {
+      content: data.content,
+      username: data.username,
+      send_time: data.send_time
+    })
+  })
+})
 
 app.post('/api/join', (req, res) => {
   var chat = DBhelper.getChat({
@@ -63,28 +96,6 @@ app.post('/api/join', (req, res) => {
       error: 1
     })
   }
-
-  /*
-  io.on('connection', (socket) => {
-    io.on('connected', (user) => {
-      // this.users[socket.id] = user
-      // io.emit('users', this.users)
-      for (var chat in chats) {
-        if (chat.id === req.body.chatID) {
-          console.log('FOUND')
-          res.json({
-            message: 'joined',
-            error: 0
-          })
-        }
-      }
-      res.json({
-        message: 'chat not exist',
-        error: 1
-      })
-    })
-  })
-  */
 })
 
 app.post('/api/create', (req, res) => {
@@ -122,10 +133,14 @@ app.post('/api/messages', (req, res) => {
     chatID: parseInt(req.body.chatID)
   })
 
+  messages.sort(function (a, b) {
+    return new Date(a.date) - new Date(b.date)
+  })
+
   res.json({
     error: 0,
     session: { user: user },
-    messages: messages
+    messages: messages.reverse()
   })
 })
 
@@ -139,60 +154,6 @@ app.post('/api/users', (req, res) => {
     users: users
   })
 })
-
-app.post('/api/sendmessage', (req, res) => {
-  DBhelper.createMessage({
-    id: shortid.generate(),
-    chatID: req.body.message.chatID,
-    username: req.body.message.username,
-    content: req.body.message.content,
-    send_time: new Date()
-  })
-
-  res.json({
-    error: 0
-  })
-
-  /*
-  if (!req.session.userId || req.session.isAdmin === false) {
-    res.status(401)
-    res.json({ message: 'Unauthorized' })
-    return
-  } else {
-    io.on('connection', (socket) => {
-      socket.on('message', (message) => {
-        io.emit('message', message)
-      })
-    })
-  }
-  */
-})
-
-/*
-app.post('/api/login', (req, res) => {
-  console.log('req.body', req.body)
-  console.log('req.query', req.query)
-  if (!req.session.userId) {
-    const user = users.find(u => u.login === req.body.login && u.password === req.body.password)
-    if (!user) {
-      // gérez le cas où on n'a pas trouvé d'utilisateur correspondant
-      console.log('user not found')
-    } else {
-      // connect the user
-      req.session.userId = 1000 // connect the user, and change the id
-      res.json({
-        message: 'connected'
-      })
-      console.log('Welcome !')
-    }
-  } else {
-    res.status(401)
-    res.json({
-      message: 'you are already connected'
-    })
-  }
-})
-*/
 
 app.get('/api/logout', (req, res) => {
   if (!req.session.userId) {
