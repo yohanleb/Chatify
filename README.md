@@ -10,6 +10,11 @@ npm install
 npm run serve
 ```
 
+### Launch api server
+```
+nodemon ./src/server.js
+```
+
 ### Compiles and minifies for production
 ```
 npm run build
