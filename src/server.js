@@ -32,6 +32,9 @@ app.use(cors({
   origin: 'http://127.0.0.1:8080'
 }))
 
+const path = require('path')
+app.use(express.static(path.join(__dirname, 'dist/')))
+
 io.on('connection', (socket) => {
   // socket.join(socket.handshake.query['chatID'])
   socket.join(socket.handshake.query.chatID)
