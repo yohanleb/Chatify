@@ -13,9 +13,9 @@ const app = express()
 const shortid = require('shortid')
 
 // Socket server
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
-http.listen(4444, '')
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+server.listen(4000)
 
 var DBhelper = require('./src/db_helper.js')
 
@@ -182,9 +182,4 @@ app.get('/api/admin', (req, res) => {
   res.json({
     message: 'congrats, you are connected'
   })
-})
-
-const port = process.env.PORT || 4000
-app.listen(port, () => {
-  console.log(`listening on ${port}`)
 })
