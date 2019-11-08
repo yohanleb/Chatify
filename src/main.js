@@ -30,8 +30,8 @@ axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 
 // Global variables
-Vue.prototype.$apiURL = 'http://127.0.0.1:4000'
-Vue.prototype.$socketURL = 'http://127.0.0.1:4444'
+Vue.prototype.$apiURL = ''
+Vue.prototype.$socketURL = ''
 Vue.prototype.$genericErrorMessage = 'Error, try again !'
 
 new Vue({
