@@ -7,24 +7,6 @@
     {
       "id": 2,
       "chatName": "Chat de yoyo"
-    },
-    {
-      "chatName": "1"
-    },
-    {
-      "chatName": "1"
-    },
-    {
-      "chatName": "1"
-    },
-    {
-      "chatName": "1"
-    },
-    {
-      "chatName": "1"
-    },
-    {
-      "chatName": "jean12"
     }
   ],
   "users": [
@@ -62,36 +44,6 @@
       "id": "bjTSg60i",
       "chatID": 2,
       "name": "yohan"
-    },
-    {
-      "id": "gv0wEPa7",
-      "chatID": 3,
-      "name": "jean"
-    },
-    {
-      "id": "81uLfGED",
-      "chatID": null,
-      "name": "jean"
-    },
-    {
-      "id": "o06-Bjh8",
-      "chatID": null,
-      "name": "jean"
-    },
-    {
-      "id": "KqnhWbOZR",
-      "chatID": null,
-      "name": "jean"
-    },
-    {
-      "id": "z_iS1hMVs",
-      "chatID": null,
-      "name": "jean"
-    },
-    {
-      "id": "DH_Qd8vg",
-      "chatID": null,
-      "name": "jean"
     }
   ],
   "messages": [

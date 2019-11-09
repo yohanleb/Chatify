@@ -185,6 +185,7 @@ export default {
           this.chatID = response.data.chatID
           this.$cookie.set('username', this.username, 1)
           this.$cookie.set('chatID', this.chatID, 1)
+          this.$cookie.set('chatName', this.chatName, 1)
           this.$router.push({
             name: 'chat',
             params: {

@@ -1,9 +1,4 @@
-/**
- * entrez la commande suivante:
- * npm install --save express express-session body-parser morgan cors
- * puis node server.js
- * exemple complet à l'adresse https://github.com/Musinux/first-vue-app
- */
+const ENV = 'DEV'
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -12,7 +7,6 @@ const session = require('express-session')
 const app = express()
 const shortid = require('shortid')
 
-// Socket server
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 // server.listen(4000, '127.0.0.1')
@@ -37,11 +31,12 @@ app.use(cors({
   origin: 'http://127.0.0.1:8080'
 }))
 
-// const path = require('path')
-// app.use(express.static(path.join(__dirname, 'dist/')))
+if (ENV === 'PROD') {
+  const path = require('path')
+  app.use(express.static(path.join(__dirname, 'dist/')))
+}
 
 io.on('connection', (socket) => {
-  // socket.join(socket.handshake.query['chatID'])
   socket.join(socket.handshake.query.chatID)
   console.log('A user is connected')
 })
@@ -137,6 +132,8 @@ app.post('/api/messages', (req, res) => {
     chatID: parseInt(req.body.chatID)
   })
 
+  console.log(user)
+
   var messages = DBhelper.getMessages({
     chatID: parseInt(req.body.chatID)
   })
@@ -175,16 +172,4 @@ app.get('/api/logout', (req, res) => {
       message: 'you are now disconnected'
     })
   }
-})
-
-app.get('/api/admin', (req, res) => {
-  if (!req.session.userId || req.session.isAdmin === false) {
-    res.status(401)
-    res.json({ message: 'Unauthorized' })
-    return
-  }
-
-  res.json({
-    message: 'congrats, you are connected'
-  })
 })

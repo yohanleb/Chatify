@@ -5,6 +5,7 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>{{ chatName }}</v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-toolbar-title>Chat ID : {{ chatID }}</v-toolbar-title>
         <v-btn color="#e74c3c" dark @click="logout()">
           <v-icon dark left>exit_to_app</v-icon>Logout
         </v-btn>
@@ -39,13 +40,13 @@
                   <template v-slot:activator="{ on }">
                     <v-list-item v-on="on" class="content" v-text="message.content"></v-list-item>
                   </template>
-                  <span v-text="message.send_time"></span>
+                  <span v-text="$options.filters.format_date(message.send_time)"></span>
                 </v-tooltip>
               </v-list-item-content>
             </v-list-item>
         </v-list>
       <div class="typebox">
-        <input type="text" placeholder="Send a message..." v-on:keyup.enter="sendMessage">
+        <input type="text" placeholder="Send a message..." v-on:keyup.enter="sendMessage" v-model="content">
         <v-btn class="btnMsg" color="#34495e" dark @click="sendMessage()">
           <v-icon dark left>message</v-icon>Send
         </v-btn>
@@ -63,9 +64,10 @@ export default {
       drawer: null,
       errorMessage: '',
       chatName: this.$cookie.get('chatName'),
+      chatID: this.$cookie.get('chatID'),
       users: this.getUsers(),
       messages: this.getMessages(),
-      socket: io.connect(this.$socketURL, { query: 'chatID=' + this.$cookie.get('chatID') }),
+      socket: io.connect(this.$apiURL, { query: 'chatID=' + this.$cookie.get('chatID') }),
       content: ''
     }
   },
@@ -108,12 +110,11 @@ export default {
       }
     },
     async sendMessage () {
-      var moment = require('moment')
       this.socket.emit('chat-message', {
         chatID: this.$cookie.get('chatID'),
         username: this.$cookie.get('username'),
         content: this.content,
-        send_time: moment().format('llll')
+        send_time: new Date()
       })
 
       this.content = ''
@@ -163,7 +164,7 @@ export default {
   padding-left: 50%;
 }
 .message.own .content {
-  background-color: #3498db;
+  background-color: #0099ff;
 }
 .username {
   font-size: 18px;
@@ -174,7 +175,7 @@ export default {
   margin-right: 1rem;
 }
 .content {
-  background-color:#2ecc71;
+  background-color:#f1f0f0;
   border-radius: 10px;
   word-wrap: break-word;
 }
