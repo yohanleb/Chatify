@@ -1,11 +1,11 @@
 <template>
   <v-layout row>
     <v-flex style="position: relative;">
-      <v-app-bar app clipped-right color="blue-grey" dark>
+      <v-app-bar app clipped-right color="#34495e" dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>{{ chatName }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn color="red darken-1" dark @click="logout()">
+        <v-btn color="#e74c3c" dark @click="logout()">
           <v-icon dark left>exit_to_app</v-icon>Logout
         </v-btn>
       </v-app-bar>
@@ -24,7 +24,6 @@
 
       <v-navigation-drawer fixed temporary></v-navigation-drawer>
 
-      <div class="chat-container">
         <v-list>
             <!-- La liste des messages -->
             <v-list-item
@@ -45,10 +44,9 @@
               </v-list-item-content>
             </v-list-item>
         </v-list>
-      </div>
       <div class="typebox">
-        <input type="text" placeholder="Ecrire un message..." v-on:keyup.enter="sendMessage" v-model="content">
-        <v-btn class="btnMsg" color="blue darken-3" dark @click="sendMessage()">
+        <input type="text" placeholder="Send a message..." v-on:keyup.enter="sendMessage">
+        <v-btn class="btnMsg" color="#34495e" dark @click="sendMessage()">
           <v-icon dark left>message</v-icon>Send
         </v-btn>
       </div>
@@ -110,11 +108,12 @@ export default {
       }
     },
     async sendMessage () {
+      var moment = require('moment')
       this.socket.emit('chat-message', {
         chatID: this.$cookie.get('chatID'),
         username: this.$cookie.get('username'),
         content: this.content,
-        send_time: new Date()
+        send_time: moment().format('llll')
       })
 
       this.content = ''
@@ -139,8 +138,10 @@ export default {
 <style>
   .typebox{
     position: relative;
-    border-top: 0.25rem solid #607d8b;
+    border: 0.25rem solid #34495e;
+    border-radius:10px;
     justify-content: center;
+    margin : 1rem;
     display: flex;
     align-items: center;
     height: 5rem;
@@ -149,16 +150,11 @@ export default {
   .typebox input[type=text]{
     position: relative;
     height: 3.5rem;
-    left: 2.5rem;
-    width: 75rem;
+    left: 1rem;
+    width: 70rem;
     outline: none;
     font-size: 1.25rem;
   }
-.chat-container {
-  margin: 1rem;
-  overflow-y: auto;
-  background-color: #f2f2f2;
-}
 .message.user {
   padding-right: 50%;
 }
@@ -167,17 +163,18 @@ export default {
   padding-left: 50%;
 }
 .message.own .content {
-  background-color: lightskyblue;
+  background-color: #3498db;
 }
-.chat-container .username {
+.username {
   font-size: 18px;
   font-weight: bold;
+  text-align: center;
 }
 .btnMsg {
   margin-right: 1rem;
 }
-.chat-container .content {
-  background-color: lightgreen;
+.content {
+  background-color:#2ecc71;
   border-radius: 10px;
   word-wrap: break-word;
 }

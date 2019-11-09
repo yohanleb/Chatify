@@ -40,6 +40,7 @@
                     v-model="username"
                     prepend-icon="person"
                     type="text"
+                    v-on:keyup.enter="join"
                     :rules="usernameRules">
                   </v-text-field>
 
@@ -50,6 +51,7 @@
                     v-model="chatID"
                     prepend-icon="lock"
                     type="text"
+                    v-on:keyup.enter="join"
                     :rules="chatIDRules">
                   </v-text-field>
                 </v-form>
@@ -89,6 +91,7 @@
                   v-model="username"
                   prepend-icon="person"
                   type="text"
+                  v-on:keyup.enter="create"
                   :rules="usernameRules">
                   ></v-text-field>
 
@@ -99,6 +102,7 @@
                     v-model="chatName"
                     prepend-icon="edit"
                     type="text"
+                    v-on:keyup.enter="create"
                     :rules="chatNameRules">
                   ></v-text-field>
                 </v-form>

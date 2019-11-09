@@ -7,6 +7,24 @@
     {
       "id": 2,
       "chatName": "Chat de yoyo"
+    },
+    {
+      "chatName": "1"
+    },
+    {
+      "chatName": "1"
+    },
+    {
+      "chatName": "1"
+    },
+    {
+      "chatName": "1"
+    },
+    {
+      "chatName": "1"
+    },
+    {
+      "chatName": "jean12"
     }
   ],
   "users": [
@@ -44,6 +62,36 @@
       "id": "bjTSg60i",
       "chatID": 2,
       "name": "yohan"
+    },
+    {
+      "id": "gv0wEPa7",
+      "chatID": 3,
+      "name": "jean"
+    },
+    {
+      "id": "81uLfGED",
+      "chatID": null,
+      "name": "jean"
+    },
+    {
+      "id": "o06-Bjh8",
+      "chatID": null,
+      "name": "jean"
+    },
+    {
+      "id": "KqnhWbOZR",
+      "chatID": null,
+      "name": "jean"
+    },
+    {
+      "id": "z_iS1hMVs",
+      "chatID": null,
+      "name": "jean"
+    },
+    {
+      "id": "DH_Qd8vg",
+      "chatID": null,
+      "name": "jean"
     }
   ],
   "messages": [
@@ -116,6 +164,34 @@
       "username": "yohan",
       "content": "test bug",
       "send_time": "2019-10-24T13:08:26.182Z"
+    },
+    {
+      "id": "G7Kqy57I",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "salut",
+      "send_time": "2019-11-09T16:20:17.259Z"
+    },
+    {
+      "id": "fVrMCmCu",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "",
+      "send_time": "2019-11-09T16:43:49.412Z"
+    },
+    {
+      "id": "fUav2ixL",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "",
+      "send_time": "2019-11-09T16:43:52.413Z"
+    },
+    {
+      "id": "PBSBo9tr",
+      "chatID": 1,
+      "username": "yohan",
+      "content": "",
+      "send_time": "Sat, Nov 9, 2019 5:54 PM"
     }
   ]
 }
