@@ -1,16 +1,20 @@
-# chatify
+# Chatify
 
-## Project setup
+## Auteur
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+* Yohan LE BRICQUER  4A CFA
+* Rémi TRUONG 4A CFA
 ```
 
-### Launch api server
+### Présentation
+```
+Simple application de chat
+
+Cette application vous permet de chatter avec vos meilleurs amis en toute simplicité.
+Vous avez le choix de rejoindre le chat de votre ami ou de créer votre propre salon.
+```
+
+### 
 ```
 nodemon ./src/server.js
 ```
