@@ -15,7 +15,12 @@ const shortid = require('shortid')
 // Socket server
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-server.listen(4000)
+// server.listen(4000, '127.0.0.1')
+
+const port = process.env.PORT || 4000
+server.listen(port, () => {
+  console.log(`listening on ${port}`)
+})
 
 var DBhelper = require('./src/db_helper.js')
 
@@ -32,8 +37,8 @@ app.use(cors({
   origin: 'http://127.0.0.1:8080'
 }))
 
-const path = require('path')
-app.use(express.static(path.join(__dirname, 'dist/')))
+// const path = require('path')
+// app.use(express.static(path.join(__dirname, 'dist/')))
 
 io.on('connection', (socket) => {
   // socket.join(socket.handshake.query['chatID'])
