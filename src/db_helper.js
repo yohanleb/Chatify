@@ -32,7 +32,6 @@ module.exports = {
       .get('messages')
       .chain()
       .filter({ chatID: params.chatID })
-      .sortBy('send_time')
       .value()
   },
   getLastChatID: function () {
@@ -51,10 +50,7 @@ module.exports = {
   },
   createChat: function (params) {
     return db.get('chats')
-      .push({
-        id: params.chatID,
-        chatName: params.chatName
-      })
+      .push(params)
       .write()
   },
   createMessage: function (params) {

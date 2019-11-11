@@ -6,10 +6,14 @@ import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import VueCookie from 'vue-cookie'
+import moment from 'moment'
+import VueChatScroll from 'vue-chat-scroll'
 
 import Index from './components/Index.vue'
 import Chat from './components/Chat.vue'
 import PageNotFound from './components/PageNotFound.vue'
+
+const ENV = 'DEV'
 
 const routes = [
   { path: '/', name: 'index', component: Index },
@@ -19,6 +23,7 @@ const routes = [
 
 Vue.use(VueCookie)
 Vue.use(VueRouter)
+Vue.use(VueChatScroll)
 
 const router = new VueRouter({
   routes
@@ -30,9 +35,17 @@ axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 
 // Global variables
-Vue.prototype.$apiURL = 'http://127.0.0.1:4000'
-Vue.prototype.$socketURL = 'http://127.0.0.1:4444'
+if (ENV === 'PROD') {
+  Vue.prototype.$apiURL = ''
+} else {
+  Vue.prototype.$apiURL = 'http://127.0.0.1:4000'
+}
 Vue.prototype.$genericErrorMessage = 'Error, try again !'
+
+Vue.filter('format_date', function (value) {
+  if (!value) return ''
+  return moment(new Date(value)).format('LLLL')
+})
 
 new Vue({
   vuetify,

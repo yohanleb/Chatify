@@ -20,7 +20,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
+              <v-toolbar class="teal lighten-1" dark flat>
                 <v-toolbar-title>Join</v-toolbar-title>
                 <div class="flex-grow-1"></div>
                 <v-tooltip right>
@@ -40,7 +40,9 @@
                     v-model="username"
                     prepend-icon="person"
                     type="text"
-                    :rules="usernameRules">
+                    v-on:keyup.enter="join"
+                    :rules="usernameRules"
+                    color="teal lighten-1">
                   </v-text-field>
 
                   <v-text-field
@@ -50,13 +52,15 @@
                     v-model="chatID"
                     prepend-icon="lock"
                     type="text"
-                    :rules="chatIDRules">
+                    v-on:keyup.enter="join"
+                    :rules="chatIDRules"
+                    color="teal lighten-1">
                   </v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="primary" @click="join()" :disabled="!validJoin">Join</v-btn>
+                <v-btn class="teal lighten-1 white--text" @click="join()" :disabled="!validJoin">Join</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -68,7 +72,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
+              <v-toolbar class="teal lighten-1" dark flat>
                 <v-toolbar-title>Create</v-toolbar-title>
                 <div class="flex-grow-1"></div>
                 <v-tooltip right>
@@ -89,7 +93,9 @@
                   v-model="username"
                   prepend-icon="person"
                   type="text"
-                  :rules="usernameRules">
+                  v-on:keyup.enter="create"
+                  :rules="usernameRules"
+                  color="teal lighten-1">
                   ></v-text-field>
 
                   <v-text-field
@@ -99,13 +105,15 @@
                     v-model="chatName"
                     prepend-icon="edit"
                     type="text"
-                    :rules="chatNameRules">
+                    v-on:keyup.enter="create"
+                    :rules="chatNameRules"
+                    color="teal lighten-1">
                   ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="primary" @click="create()" :disabled="!validCreate">Create</v-btn>
+                <v-btn class="teal lighten-1 white--text" @click="create()" :disabled="!validCreate">Create</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -181,6 +189,7 @@ export default {
           this.chatID = response.data.chatID
           this.$cookie.set('username', this.username, 1)
           this.$cookie.set('chatID', this.chatID, 1)
+          this.$cookie.set('chatName', this.chatName, 1)
           this.$router.push({
             name: 'chat',
             params: {
