@@ -13,7 +13,7 @@ import Index from './components/Index.vue'
 import Chat from './components/Chat.vue'
 import PageNotFound from './components/PageNotFound.vue'
 
-const ENV = 'DEV'
+const ENV = 'PROD'
 
 const routes = [
   { path: '/', name: 'index', component: Index },
