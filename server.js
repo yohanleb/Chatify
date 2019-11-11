@@ -132,20 +132,18 @@ app.post('/api/messages', (req, res) => {
     chatID: parseInt(req.body.chatID)
   })
 
-  console.log(user)
-
   var messages = DBhelper.getMessages({
     chatID: parseInt(req.body.chatID)
   })
 
   messages.sort(function (a, b) {
-    return new Date(a.date) - new Date(b.date)
+    return new Date(a.send_time) - new Date(b.send_time)
   })
 
   res.json({
     error: 0,
     session: { user: user },
-    messages: messages.reverse()
+    messages: messages
   })
 })
 

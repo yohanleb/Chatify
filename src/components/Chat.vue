@@ -1,18 +1,22 @@
 <template>
   <v-layout row>
-    <v-flex style="position: relative;">
-      <v-app-bar app clipped-right color="#34495e" dark>
+    <v-flex>
+      <v-app-bar class="teal lighten-1" app clipped-right dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>{{ chatName }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-title>Chat ID : {{ chatID }}</v-toolbar-title>
-        <v-btn color="#e74c3c" dark @click="logout()">
-          <v-icon dark left>exit_to_app</v-icon>Logout
-        </v-btn>
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" app>
         <v-list>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="title">
+                Chat Users
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-list-item v-for="(user, i) in users" :key="i">
             <v-icon>account_circle</v-icon>
             <v-spacer></v-spacer>
@@ -20,12 +24,16 @@
               <v-list-item-title>{{ user.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <div class="pa-2">
+            <v-btn block color="#e74c3c" dark @click="logout()">
+              <v-icon dark left>exit_to_app</v-icon>Logout
+            </v-btn>
+          </div>
         </v-list>
       </v-navigation-drawer>
 
       <v-navigation-drawer fixed temporary></v-navigation-drawer>
-
-        <v-list>
+        <v-list v-chat-scroll="{always: false, smooth: true}">
             <!-- La liste des messages -->
             <v-list-item
               class="message"
@@ -47,7 +55,7 @@
         </v-list>
       <div class="typebox">
         <input type="text" placeholder="Send a message..." v-on:keyup.enter="sendMessage" v-model="content">
-        <v-btn class="btnMsg" color="#34495e" dark @click="sendMessage()">
+        <v-btn class="btnMsg teal lighten-1" dark @click="sendMessage()">
           <v-icon dark left>message</v-icon>Send
         </v-btn>
       </div>
@@ -129,6 +137,7 @@ export default {
     }
   },
   mounted () {
+    document.documentElement.style.overflow = 'hidden'
     this.socket.on('message', (data) => {
       this.messages.push(data)
     })
@@ -137,25 +146,25 @@ export default {
 </script>
 
 <style>
-  .typebox{
-    position: relative;
-    border: 0.25rem solid #34495e;
-    border-radius:10px;
-    justify-content: center;
-    margin : 1rem;
-    display: flex;
-    align-items: center;
-    height: 5rem;
-  }
+.typebox{
+  position: relative;
+  border: 0.25rem solid #00796B;
+  border-radius:10px;
+  justify-content: center;
+  margin : 1rem;
+  display: flex;
+  align-items: center;
+  height: 5rem;
+}
 
-  .typebox input[type=text]{
-    position: relative;
-    height: 3.5rem;
-    left: 1rem;
-    width: 70rem;
-    outline: none;
-    font-size: 1.25rem;
-  }
+.typebox input[type=text]{
+  position: relative;
+  height: 3.5rem;
+  left: 1rem;
+  width: 100%;
+  outline: none;
+  font-size: 1.25rem;
+}
 .message.user {
   padding-right: 50%;
 }
@@ -164,7 +173,7 @@ export default {
   padding-left: 50%;
 }
 .message.own .content {
-  background-color: #0099ff;
+  background-color: #80CBC4;
 }
 .username {
   font-size: 18px;
@@ -178,5 +187,9 @@ export default {
   background-color:#f1f0f0;
   border-radius: 10px;
   word-wrap: break-word;
+}
+.v-list{
+  height:calc(100vh - 11rem);
+  overflow-y:auto
 }
 </style>

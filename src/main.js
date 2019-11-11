@@ -7,6 +7,7 @@ import VueRouter from 'vue-router'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import VueCookie from 'vue-cookie'
 import moment from 'moment'
+import VueChatScroll from 'vue-chat-scroll'
 
 import Index from './components/Index.vue'
 import Chat from './components/Chat.vue'
@@ -22,6 +23,7 @@ const routes = [
 
 Vue.use(VueCookie)
 Vue.use(VueRouter)
+Vue.use(VueChatScroll)
 
 const router = new VueRouter({
   routes

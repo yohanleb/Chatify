@@ -32,7 +32,6 @@ module.exports = {
       .get('messages')
       .chain()
       .filter({ chatID: params.chatID })
-      .sortBy('send_time')
       .value()
   },
   getLastChatID: function () {

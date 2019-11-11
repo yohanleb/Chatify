@@ -20,7 +20,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
+              <v-toolbar class="teal lighten-1" dark flat>
                 <v-toolbar-title>Join</v-toolbar-title>
                 <div class="flex-grow-1"></div>
                 <v-tooltip right>
@@ -41,7 +41,8 @@
                     prepend-icon="person"
                     type="text"
                     v-on:keyup.enter="join"
-                    :rules="usernameRules">
+                    :rules="usernameRules"
+                    color="teal lighten-1">
                   </v-text-field>
 
                   <v-text-field
@@ -52,13 +53,14 @@
                     prepend-icon="lock"
                     type="text"
                     v-on:keyup.enter="join"
-                    :rules="chatIDRules">
+                    :rules="chatIDRules"
+                    color="teal lighten-1">
                   </v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="primary" @click="join()" :disabled="!validJoin">Join</v-btn>
+                <v-btn class="teal lighten-1 white--text" @click="join()" :disabled="!validJoin">Join</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -70,7 +72,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
+              <v-toolbar class="teal lighten-1" dark flat>
                 <v-toolbar-title>Create</v-toolbar-title>
                 <div class="flex-grow-1"></div>
                 <v-tooltip right>
@@ -92,7 +94,8 @@
                   prepend-icon="person"
                   type="text"
                   v-on:keyup.enter="create"
-                  :rules="usernameRules">
+                  :rules="usernameRules"
+                  color="teal lighten-1">
                   ></v-text-field>
 
                   <v-text-field
@@ -103,13 +106,14 @@
                     prepend-icon="edit"
                     type="text"
                     v-on:keyup.enter="create"
-                    :rules="chatNameRules">
+                    :rules="chatNameRules"
+                    color="teal lighten-1">
                   ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="primary" @click="create()" :disabled="!validCreate">Create</v-btn>
+                <v-btn class="teal lighten-1 white--text" @click="create()" :disabled="!validCreate">Create</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
